@@ -1,19 +1,53 @@
 /**
  * x=10 to 150
- * 
+ *
  * y=10 to 110
  */
+// onOverlapTile fires as soon as the player's box enters the tile's 16x16 grid
+// cell, even over the cell's transparent pixels (e.g. the empty corners around
+// the small crystal icon). Only end the game if the player is actually over a
+// drawn (non-transparent) pixel of that tile, so near-misses don't count.
+function isTouchingTileArt(sprite: Sprite, location: tiles.Location): boolean {
+    const tileImg = tiles.getTileImage(location)
+    const spriteImg = sprite.image
+    const spriteLeft = Math.floor(sprite.left)
+    const spriteTop = Math.floor(sprite.top)
+    const tileLeft = location.left
+    const tileTop = location.top
+
+    const left = Math.max(spriteLeft, tileLeft)
+    const right = Math.min(spriteLeft + spriteImg.width, tileLeft + tileImg.width)
+    const top = Math.max(spriteTop, tileTop)
+    const bottom = Math.min(spriteTop + spriteImg.height, tileTop + tileImg.height)
+
+    for (let y = top; y < bottom; y++) {
+        for (let x = left; x < right; x++) {
+            if (spriteImg.getPixel(x - spriteLeft, y - spriteTop) && tileImg.getPixel(x - tileLeft, y - tileTop)) {
+                return true
+            }
+        }
+    }
+    return false
+}
 scene.onOverlapTile(SpriteKind.Player, sprites.builtin.coral5, function (sprite, location) {
-    game.gameOver(false)
+    if (isTouchingTileArt(sprite, location)) {
+        game.gameOver(false)
+    }
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.builtin.forestTiles0, function (sprite, location) {
-    game.gameOver(false)
+    if (isTouchingTileArt(sprite, location)) {
+        game.gameOver(false)
+    }
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.swamp.swampTile13, function (sprite, location) {
-    game.gameOver(false)
+    if (isTouchingTileArt(sprite, location)) {
+        game.gameOver(false)
+    }
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleBlueCrystal, function (sprite, location) {
-    game.gameOver(false)
+    if (isTouchingTileArt(sprite, location)) {
+        game.gameOver(false)
+    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
