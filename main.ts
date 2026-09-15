@@ -4,15 +4,19 @@
  * y=10 to 110
  */
 scene.onOverlapTile(SpriteKind.Player, sprites.builtin.coral5, function (sprite, location) {
+    music.stopAllSounds()
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.builtin.forestTiles0, function (sprite, location) {
+    music.stopAllSounds()
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.swamp.swampTile13, function (sprite, location) {
+    music.stopAllSounds()
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleBlueCrystal, function (sprite, location) {
+    music.stopAllSounds()
     game.gameOver(false)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
